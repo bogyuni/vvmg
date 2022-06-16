@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.onreadystatechange = function () {
+			if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+				console.log('Sucess');
+				printCSV(xmlHttp.responseText);
+
+			} else {
+				console.log('Faile');
+			}
+		}
+
+		xmlHttp.open('GET', 'file/test.csv', true);
+		xmlHttp.send();
+
+		function printCSV(data) {
+			var allRows = data.split(/\r?\n|\r/);
+			var table = '<table>';
+			for (var singleRow = 0; singleRow < allRows.length; singleRow++) {
+				if (singleRow === 0) {
+					table += '<thead>';
+					table += '<tr>';
+				} else {
+					table += '<tr>';
+				}
+				var rowCells = allRows[singleRow].split(',');
+				for (var rowCell = 0; rowCell < rowCells.length; rowCell++) {
+					if (singleRow === 0) {
+						table += '<th>';
+						table += rowCells[rowCell];
+						table += '</th>';
+					} else {
+						table += '<td>';
+						table += rowCells[rowCell];
+						table += '</td>';
+					}
+				}
+				if (singleRow === 0) {
+					table += '</tr>';
+					table += '</thead>';
+					table += '<tbody>';
+				} else {
+					table += '</tr>';
+				}
+			}
+			table += '</tbody>';
+			table += '</table>';
+			console.log(table);
+			document.body.innerHTML = table;
+		}
+
+	</script>
+</body>
+</html>

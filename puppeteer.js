@@ -8,10 +8,12 @@ async function scrapeData() {
 	const page = await browser.newPage();
 
 	try {
+		const baseUrl = 'https://www.avdbs.com/menu/actor.php?actor_idx=';
+		const urlCnt = 10;
 		const pageUrls = [
-			'https://www.avdbs.com/menu/actor.php?actor_idx=8898',
-			'https://www.avdbs.com/menu/actor.php?actor_idx=8899',
-			'https://www.avdbs.com/menu/actor.php?actor_idx=8900'
+			baseUrl+'9000',
+			baseUrl+'1',
+			baseUrl+'2',
 		];
 		const data = [];
 	
@@ -27,7 +29,7 @@ async function scrapeData() {
 
     // 나머지 코드...
 		for (const url of pageUrls) {
-			await page.goto(url);
+			await page.goto(url, { timeout: 1000 }); // 타임아웃을 0.1초로 설정
 	
 			// 원하는 HTML 클래스 선택자
 			const name_en = '.inner_name_en';
@@ -64,7 +66,13 @@ async function scrapeData() {
 
 
 	} catch (error) {
-    console.error(error.message);
+		if (error.message.includes('Navigation timeout')) {
+      console.error(`Timeout error occurred for URL: ${page.url()}`);
+      // 타임아웃이 발생하면 이 URL을 무시하고 계속 진행
+			continue;
+    } else {
+      console.error(error.message);
+    }
   } finally {
     await browser.close();
   }

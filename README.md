@@ -5,6 +5,7 @@ Video viewer manager Ver2.0
 ```
 npm install cheerio
 npm install axios
+node puppeteer.js
 ```
 
 설치 되어있음.
@@ -15,6 +16,5 @@ npm install axios
 1. 23-11-21 현재
 - https://www.avdbs.com 사이트는 'cheerio' 로 크롤링 불가능,
 'puppeteer' 로 작업 가능,
-```
-node puppeteer.js
-```
+
+- 현재 continue 문제 처리 중

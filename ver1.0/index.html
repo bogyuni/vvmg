@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>JAV</title>
+	<link rel="stylesheet" href="main.css">
+	<script src="data.js"></script>
+	<script>
+		const route = 'data/';
+		const mainImg = '/00.jpg';
+
+		window.onload = function () {
+			const app = document.querySelector('.app');
+
+			for (var i in data) {
+				// Itme Box
+				const item = document.createElement('div');
+				item.className = 'item';
+
+				// Link
+				const link = document.createElement('a');
+				link.href = 'sub.html#' + data[i].name.replace(' ', '_');
+				// link.target = '_blank';
+				item.appendChild(link);
+
+				// Thumbnail
+				const img = document.createElement('img');
+				img.src = route + data[i].name.replace(' ', '_') + mainImg;
+				link.appendChild(img);
+
+				// Title
+				const title = document.createElement('h1');
+				title.innerHTML = data[i].name + '<br>' + data[i].kname;
+				item.appendChild(title);
+
+				const infoBox = document.createElement('div');
+				infoBox.classList.add('info_box');
+
+				if (data[i].name2) {
+					const o_name = document.createElement('p');
+					o_name.innerHTML = `Names: ${data[i].name2}`;
+					if (data[i].name3) {
+						o_name.innerHTML += `, ${data[i].name3}`;
+					}
+					infoBox.appendChild(o_name);
+				}
+
+				if (data[i].birth) {
+					const birth = document.createElement('p');
+					const year = new Date().getFullYear();
+					birth.innerHTML = `Age: ${(year - data[i].birth + 1)} (${data[i].birth})`;
+					infoBox.appendChild(birth);
+				}
+
+				if (data[i].cup) {
+					const cup = document.createElement('p');
+					cup.innerHTML = `Cup size: ${data[i].cup}`;
+					infoBox.appendChild(cup);
+					item.classList.add('size_' + data[i].cup);
+					if (data[i].cup > 'E') {
+						item.classList.add('size_big');
+					}
+				}
+
+				if (data[i].body) {
+					const body = document.createElement('p');
+					body.innerHTML = `Body: ${data[i].body}`;
+					infoBox.appendChild(body);
+				}
+
+				if (data[i].style) {
+					const style = document.createElement('p');
+					style.innerHTML = `Style: ${data[i].style}`;
+					infoBox.appendChild(style);
+				}
+
+				item.appendChild(infoBox);
+
+				app.appendChild(item);
+			}
+
+			const actor = document.querySelector('.actor_info');
+			actor.innerHTML = '<h1>Actor : ' + data.length + '명</h1>';
+
+		} // window load end
+
+		function checkCupSize(e) {
+			// let sizeValue = e.value > 'E' ? '.size_big' : '.size_' + e.value;
+			let sizeValue = '.size_' + e.value;
+			const size = document.querySelectorAll(sizeValue);
+
+			if (size !== null) {
+				if (e.checked === false) {
+					for (let i = 0; i < size.length; i++) {
+						size[i].classList.add('hide');
+					}
+				} else {
+					for (let i = 0; i < size.length; i++) {
+						size[i].classList.remove('hide');
+					}
+				}
+			}
+		}
+	</script>
+</head>
+
+<body>
+	G:\
+	<a href="potplayer://G://as/china/480P_600K_128217811.mp4">aaaaaaaaaa</a>
+	<div class="actor_info"></div>
+	<div class="control">
+		<div class="size_wrap">
+			CUP :
+			<label for="cup_A">
+				A <input type="checkbox" id="cup_A" checked value='A' onclick="checkCupSize(this)">
+			</label>
+			<label for="cup_B">
+				B <input type="checkbox" id="cup_B" checked value="B" onclick="checkCupSize(this)">
+			</label>
+			<label for="cup_C">
+				C <input type="checkbox" id="cup_C" checked value="C" onclick="checkCupSize(this)">
+			</label>
+			<label for="cup_D">
+				D <input type="checkbox" id="cup_D" checked value="D" onclick="checkCupSize(this)">
+			</label>
+			<label for="cup_E">
+				E <input type="checkbox" id="cup_E" checked value="E" onclick="checkCupSize(this)">
+			</label>
+			<label for="cup_F">
+				F <input type="checkbox" id="cup_F" checked value="F" onclick="checkCupSize(this)">
+			</label>
+			<label for="cup_G">
+				G <input type="checkbox" id="cup_G" checked value="G" onclick="checkCupSize(this)">
+			</label>
+			<label for="cup_H">
+				H <input type="checkbox" id="cup_H" checked value="H" onclick="checkCupSize(this)">
+			</label>
+			<label for="cup_I">
+				I <input type="checkbox" id="cup_I" checked value="I" onclick="checkCupSize(this)">
+			</label>
+			<label for="cup_J">
+				J <input type="checkbox" id="cup_J" checked value="J" onclick="checkCupSize(this)">
+			</label>
+		</div>
+	</div>
+
+	<div class="app"></div>
+</body>
+
+</html>

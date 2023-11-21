@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		li{display: inline-block;}
+		img{width:800px}
+	</style>
+</head>
+<body>
+<!-- <form>
+	<input type="file" id="directory_upload" webkitdirectory>
+</form>
+<div class="file_list">
+	<p>file_list</p>
+</div> -->
+
+<script>
+	if (window.File && window.FileReader && window.FileList && window.Blob) {
+  // Great success! All the File APIs are supported.
+} else {
+	alert('The File APIs are not fully supported in this browser.');
+}
+
+	const input = document.querySelector('input');
+	const preview = document.querySelector('.file_list');
+	input.addEventListener('change', showTextFile);
+
+	function showTextFile() {
+		const selectedFiles = input.files;
+		console.log(selectedFiles);
+
+		const list = document.createElement('ul');
+
+		for(const file of selectedFiles) {
+			if (file.type.indexOf('image') > -1){
+				const listItem = document.createElement('li');
+				console.log(file.name);
+				const img = document.createElement('img');
+				img.src = 'data/'+file.webkitRelativePath;
+				listItem.appendChild(img);
+				list.appendChild(listItem);
+			}else{
+				// const summary = document.createElement('div');
+				// summary.textContent = file.webkitRelativePath;
+				// listItem.appendChild(summary);
+			}
+		}
+
+		preview.appendChild(list);
+	}
+
+	showTextFile();
+
+
+
+</script>
+
+
+<input type="file" id="files" name="files[]" multiple />
+<output id="list"></output>
+
+<script>
+  function handleFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+    // files is a FileList of File objects. List some properties.
+    var output = [];
+    for (var i = 0, f; f = files[i]; i++) {
+      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                  f.size, ' bytes, last modified: ',
+                  f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+                  '</li>');
+    }
+    document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+  }
+
+  document.getElementById('files').addEventListener('change', handleFileSelect, false);
+</script>
+
+</body>
+</html>

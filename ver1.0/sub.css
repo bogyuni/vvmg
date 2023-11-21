@@ -1,0 +1,48 @@
+@charset 'utf-8';
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+.item {
+	margin: 10px 10px;
+	float: left;
+	position: relative;
+}
+
+.item a {
+	position: relative;
+	display: block;
+}
+
+.img_box {
+	width: 600px;
+	height: 400px;
+	background-color: black;
+}
+.img_box img {
+	height: 100%;
+	width: 100%;
+	object-fit: contain;
+}
+
+.info_box {
+	padding: 0.4em;
+	border: 1px solid #000;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	background: #fff;
+	color: #000;
+}
+.info_box h2 {
+	white-space: nowrap;
+}
+.info_box .uncensored {
+	font-size: 2em;
+	color: red;
+}
+.info_box .red {
+	color: red;
+}

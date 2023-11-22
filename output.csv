@@ -1,19 +1,4 @@
-url,name_en,name_ko
-https://www.avdbs.com/menu/actor.php?actor_idx=2,Remi Sasaki,사사키 레미
-https://www.avdbs.com/menu/actor.php?actor_idx=3,Ren Aizawa,아이자와 렌
-https://www.avdbs.com/menu/actor.php?actor_idx=4,An Takahashi,타카하시 안
-https://www.avdbs.com/menu/actor.php?actor_idx=5,Anju Kitagawa,키타가와 안주
-https://www.avdbs.com/menu/actor.php?actor_idx=6,Harumi Tachibana,타치바나 하루미
-https://www.avdbs.com/menu/actor.php?actor_idx=7,Non Suzumiya,스즈미야 논
-https://www.avdbs.com/menu/actor.php?actor_idx=8,Riho Hasegawa,하세가와 리호
-https://www.avdbs.com/menu/actor.php?actor_idx=9,Shoko Nakanishi,나카니시 쇼코
-https://www.avdbs.com/menu/actor.php?actor_idx=10,Chigusa Hara,하라 치구사
-https://www.avdbs.com/menu/actor.php?actor_idx=11,Rin Momoka,모모카 린
-https://www.avdbs.com/menu/actor.php?actor_idx=12,Mai Nadasaka,나다사카 마이
-https://www.avdbs.com/menu/actor.php?actor_idx=13,Risa Onodera,오노데라 리사
-https://www.avdbs.com/menu/actor.php?actor_idx=14,Emiri Suzuhara,스즈하라 에미리
-https://www.avdbs.com/menu/actor.php?actor_idx=15,Azusa Ono,오노 아즈사
-https://www.avdbs.com/menu/actor.php?actor_idx=16,Sana Harumi,하루미 사나
-https://www.avdbs.com/menu/actor.php?actor_idx=17,Miyuki Kato,카토 미유키
-https://www.avdbs.com/menu/actor.php?actor_idx=18,Anna Morikawa,모리카와 안나
-https://www.avdbs.com/menu/actor.php?actor_idx=19,Ari,아리
+url,name_en
+https://www.avdbs.com/menu/dvd.php?dvd_idx=2,GTAL-024,시노다아유미,篠田あゆみ,AyumiShinoda
+https://www.avdbs.com/menu/dvd.php?dvd_idx=4,ECB-098,무라카미료코,村上涼子（中村りかこ、黒木菜穂）,RyokoMurakami
+https://www.avdbs.com/menu/dvd.php?dvd_idx=7,BNSPS-391,사사키레미,佐々木恋海（向井恋）,RemiSasaki

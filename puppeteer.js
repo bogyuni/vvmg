@@ -10,7 +10,7 @@ async function scrapeData() {
 	const baseUrl = 'https://www.avdbs.com/menu/dvd.php?dvd_idx=';
 	const url = 'https://www.avdbs.com'; // 대상 URL로 변경
 	const urlMin = 1;
-	const urlMax = 100;
+	const urlMax = 1000;
 	const pageUrls = [];
 	for (let i = urlMin; i <= urlMax; i++) {
 		pageUrls.push(baseUrl+i);
@@ -28,7 +28,8 @@ async function scrapeData() {
 		for (const url of pageUrls) {
 			let timeoutOccurred = false;
 			try {
-				await page.goto(url, { timeout: 500 }); // 타임아웃을 1초로 설정
+				// await page.goto(url, { timeout: 200 }); // 타임아웃을 1초로 설정
+				await page.goto(url);
 				// 원하는 HTML 클래스 선택자
 				const selectedData = '.title';
 				const profileDetail = '.profile_detail';
@@ -57,7 +58,8 @@ async function scrapeData() {
 													.replace('재생시간:', '');
 					// const profile = customProfile;
 
-					const reMsg = `Content of the selected element on ${url}:, ${description}`;
+					// const reMsg = `Content of the selected element on ${url}:, ${description}`;
+					const reMsg = `${url}, ${description}`;
 					// console.log(reMsg);
 					resultData += reMsg+'\n';
 					// 데이터 배열에 추가
@@ -67,7 +69,8 @@ async function scrapeData() {
 						prof: profile,
 					});
 				} else {
-					const reMsg = `No element found for selectedData "${selectedData}" on ${url}`;
+					// const reMsg = `No element found for selectedData "${selectedData}" on ${url}`;
+					const reMsg = `${url}, No element found`;
 					// console.error(reMsg);
 					resultData += reMsg+'\n';
 				}

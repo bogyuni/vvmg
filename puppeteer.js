@@ -9,8 +9,8 @@ async function scrapeData() {
 	// const baseUrl = 'https://www.avdbs.com/menu/actor.php?actor_idx=';
 	const baseUrl = 'https://www.avdbs.com/menu/dvd.php?dvd_idx=';
 	const url = 'https://www.avdbs.com'; // 대상 URL로 변경
-	const urlMin = 1;
-	const urlMax = 1000;
+	const urlMin = 101;
+	const urlMax = 200;
 	const pageUrls = [];
 	for (let i = urlMin; i <= urlMax; i++) {
 		pageUrls.push(baseUrl+i);
@@ -40,27 +40,22 @@ async function scrapeData() {
 					// 선택자에 일치하는 내용을 추출
 					const customData = await page.$eval(selectedData, element => element.textContent);
 					const customProfile = await page.$eval(profileDetail, element => element.textContent);
-
-					// console.log(customProfile);
-
-
 					const description = customData.replace(/\s/g, '').replace(/\//g, ',');
 					const profile = customProfile
 													.replace(/\n/g, ',')
 													.replace(/\s/g, '')
 													.replace(':,', ':')
-													.replace(',출시:', '')
+													.replace('출시:', '')
 													.replace('출연:', '')
 													.replace('제작사:', '')
 													.replace('레이블:', '')
 													.replace('시리즈:', '')
 													.replace('감독:', '')
 													.replace('재생시간:', '');
-					// const profile = customProfile;
 
 					// const reMsg = `Content of the selected element on ${url}:, ${description}`;
 					const reMsg = `${url}, ${description}`;
-					// console.log(reMsg);
+					console.log(reMsg);
 					resultData += reMsg+'\n';
 					// 데이터 배열에 추가
 					data.push({
@@ -71,15 +66,16 @@ async function scrapeData() {
 				} else {
 					// const reMsg = `No element found for selectedData "${selectedData}" on ${url}`;
 					const reMsg = `${url}, No element found`;
-					// console.error(reMsg);
+					console.error(reMsg);
 					resultData += reMsg+'\n';
 				}
 				// 데이터를 CSV 문자열로 변환
-				csvData = data.map(item => `${item.url.split(baseUrl)[1]},${item.desc},${item.prof}`).join('\n');
+				// csvData = data.map(item => `${item.url.split(baseUrl)[1]},${item.desc},${item.prof}`).join('\n');
+				csvData = data.map(item => `${item.url},${item.desc}${item.prof}`).join('\n');
 			} catch (error) {
 				if (error.message.includes('Navigation timeout')) {
 					const reMsg = `Timeout error occurred for URL: ${page.url()}`;
-					// console.error(reMsg);
+					console.error(reMsg);
 					resultData += reMsg+'\n';
 					timeoutOccurred = true;
 				} else {
@@ -95,7 +91,7 @@ async function scrapeData() {
 
 		// CSV 파일로 저장
 		// fs.writeFileSync('./data/av_prduct.csv', 'url_id, 품번, 한글명, 일어명, 영어명, profile\n' + csvData, 'utf-8');
-		fs.writeFileSync('./data/av_prduct.csv', 'url_id, 품번, 한글명, 일어명, 영어명, 출시일, 출연, 제작사, 레이블, 시리즈, 감독, 재생시간\n' + csvData, 'utf-8');
+		fs.writeFileSync('./data/av_prduct.csv', 'AVDBS_URL, 품번, 한글명, 일어명, 영어명, 출시일, 출연, 제작사, 레이블, 시리즈, 감독, 재생시간\n' + csvData, 'utf-8');
 		fs.writeFileSync('resultLog.csv', 'url,data\n' + resultData, 'utf-8');
 	} finally {
 		await browser.close();

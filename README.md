@@ -16,7 +16,7 @@ node puppeteer.js
 
 - scrape.js 파일은 cheerio 크롤링
 
-- https://www.avdbs.com 사이트는 'cheerio' 로 크롤링 불가능,
+- avdbs.com 사이트는 'cheerio' 로 크롤링 불가능,  
   'puppeteer' 로 작업 가능,
 
 - 현재 'cheerio', 'axios', 'puppeteer' 설치 되어있음.  

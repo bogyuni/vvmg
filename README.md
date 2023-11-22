@@ -21,3 +21,6 @@ node puppeteer.js
 
 - 현재 'cheerio', 'axios', 'puppeteer' 설치 되어있음.  
   사용은 puppeteer 로 크롤링 중
+
+- actor 페이지 정보 추출에서, dvd 페이지 정보 추출로 변경,  
+  현재 url, 품번, 국글, 일문, 영문 데이터 추출 가능

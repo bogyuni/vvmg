@@ -9,8 +9,8 @@ async function scrapeData() {
 	// const baseUrl = 'https://www.avdbs.com/menu/actor.php?actor_idx=';
 	const baseUrl = 'https://www.avdbs.com/menu/dvd.php?dvd_idx=';
 	const url = 'https://www.avdbs.com'; // 대상 URL로 변경
-	const urlMin = 101;
-	const urlMax = 200;
+	const urlMin = 1;
+	const urlMax = 10;
 	const pageUrls = [];
 	for (let i = urlMin; i <= urlMax; i++) {
 		pageUrls.push(baseUrl+i);
@@ -21,6 +21,9 @@ async function scrapeData() {
 
 	try {
 		const response = await page.goto(url);
+
+		console.log(response);
+
 		if (!response.ok()) {
 			throw new Error(`${response.status()} ${response.statusText()} at ${url}`);
 		}
@@ -30,51 +33,61 @@ async function scrapeData() {
 			try {
 				// await page.goto(url, { timeout: 200 }); // 타임아웃을 1초로 설정
 				await page.goto(url);
-				// 원하는 HTML 클래스 선택자
-				const selectedData = '.title';
-				const profileDetail = '.profile_detail';
-				// 페이지 내에서 해당 선택자에 일치하는 요소가 있는지 확인
-				const isElementExist = await page.$(selectedData);
 
-				if (isElementExist) {
-					// 선택자에 일치하는 내용을 추출
-					const customData = await page.$eval(selectedData, element => element.textContent);
-					const customProfile = await page.$eval(profileDetail, element => element.textContent);
-					const description = customData.replace(/\s/g, '').replace(/\//g, ',');
-					const profile = customProfile
-													.replace(/\n/g, ',')
-													.replace(/\s/g, '')
-													.replace(':,', ':')
-													.replace('출시:', '')
-													.replace('출연:', '')
-													.replace('제작사:', '')
-													.replace('레이블:', '')
-													.replace('시리즈:', '')
-													.replace('감독:', '')
-													.replace('재생시간:', '');
+				const pageTitle = await page.$eval('title', element => element.textContent);
+				const check404 = pageTitle.indexOf('404') > -1 ? true : false
+				console.log(pageTitle, check404);
 
-					// const reMsg = `Content of the selected element on ${url}:, ${description}`;
-					const reMsg = `${url}, ${description}`;
-					console.log(reMsg);
-					resultData += reMsg+'\n';
-					// 데이터 배열에 추가
-					data.push({
-						url: url,
-						desc: description,
-						prof: profile,
-					});
+				if (!check404) {
+					// 원하는 HTML 클래스 선택자
+					const selectedData = '.title';
+					const profileDetail = '.profile_detail';
+					// 페이지 내에서 해당 선택자에 일치하는 요소가 있는지 확인
+					const isElementExist = await page.$(selectedData);
+	
+					if (isElementExist) {
+						// 선택자에 일치하는 내용을 추출
+						const customData = await page.$eval(selectedData, element => element.textContent);
+						const customProfile = await page.$eval(profileDetail, element => element.textContent);
+						const description = customData.replace(/\s/g, '').replace(/\//g, ',');
+						const profile = customProfile
+														.replace(/\n/g, ',')
+														.replace(/\s/g, '')
+														.replace(':,', ':')
+														.replace('출시:', '')
+														.replace('출연:', '')
+														.replace('제작사:', '')
+														.replace('레이블:', '')
+														.replace('시리즈:', '')
+														.replace('감독:', '')
+														.replace('재생시간:', '');
+	
+						// const reMsg = `Content of the selected element on ${url}:, ${description}`;
+						const reMsg = `${url}, ${description}`;
+						console.log(reMsg);
+						resultData += reMsg+'\n';
+						// 데이터 배열에 추가
+						data.push({
+							url: url,
+							desc: description,
+							prof: profile,
+						});
+					} else {
+						// const reMsg = `No element found for selectedData "${selectedData}" on ${url}`;
+						const reMsg = `${url}, No element found`;
+						console.error(reMsg);
+						resultData += reMsg+'\n';
+					}
+					// 데이터를 CSV 문자열로 변환
+					csvData = data.map(item => `${item.url},${item.desc}${item.prof}`).join('\n');
 				} else {
-					// const reMsg = `No element found for selectedData "${selectedData}" on ${url}`;
-					const reMsg = `${url}, No element found`;
+					const reMsg = `${url}, 404 Not found`;
 					console.error(reMsg);
 					resultData += reMsg+'\n';
 				}
-				// 데이터를 CSV 문자열로 변환
-				// csvData = data.map(item => `${item.url.split(baseUrl)[1]},${item.desc},${item.prof}`).join('\n');
-				csvData = data.map(item => `${item.url},${item.desc}${item.prof}`).join('\n');
 			} catch (error) {
 				if (error.message.includes('Navigation timeout')) {
-					const reMsg = `Timeout error occurred for URL: ${page.url()}`;
+					const reMsg = `${page.url()}, Timeout error`;
 					console.error(reMsg);
 					resultData += reMsg+'\n';
 					timeoutOccurred = true;

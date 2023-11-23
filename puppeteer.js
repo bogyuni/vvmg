@@ -21,9 +21,6 @@ async function scrapeData() {
 
 	try {
 		const response = await page.goto(url);
-
-		console.log(response);
-
 		if (!response.ok()) {
 			throw new Error(`${response.status()} ${response.statusText()} at ${url}`);
 		}
@@ -36,7 +33,6 @@ async function scrapeData() {
 
 				const pageTitle = await page.$eval('title', element => element.textContent);
 				const check404 = pageTitle.indexOf('404') > -1 ? true : false
-				console.log(pageTitle, check404);
 
 				if (!check404) {
 					// 원하는 HTML 클래스 선택자
@@ -103,7 +99,6 @@ async function scrapeData() {
 		}
 
 		// CSV 파일로 저장
-		// fs.writeFileSync('./data/av_prduct.csv', 'url_id, 품번, 한글명, 일어명, 영어명, profile\n' + csvData, 'utf-8');
 		fs.writeFileSync('./data/av_prduct.csv', 'AVDBS_URL, 품번, 한글명, 일어명, 영어명, 출시일, 출연, 제작사, 레이블, 시리즈, 감독, 재생시간\n' + csvData, 'utf-8');
 		fs.writeFileSync('resultLog.csv', 'url,data\n' + resultData, 'utf-8');
 	} finally {
